@@ -1,3 +1,5 @@
-# Clash of Ideology: web test build
+# Clash of Ideology: web build
 
-A test build of the GDScript port, for timing a real game in a browser and on a phone. It makes a world, paints its map on the GPU, runs the 13-year warm-up with a progress bar, then plays turns with every nation run by the AI: tap Next turn or Play a year. The map shows below the buttons (drag to pan, Zoom in and Zoom out); Show report swaps it for the timings and the leading nations.
+The GDScript port of Clash of Ideology, the full game. It makes a world, paints its map, runs the 13-year warm-up behind a progress bar, then lets you pick a nation and play: every window, tap and hold included. Add it to the home screen to play offline (open it twice online first so both big files are cached).
+
+Not there yet: saves (closing the page loses the game) and the serif font for map names.
