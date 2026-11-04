@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1793834473|10099382';
+const CACHE_VERSION = '1793836691|9805114';
 /** @type {string} */
 const CACHE_PREFIX = 'Clash of Ideolog-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
