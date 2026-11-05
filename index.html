@@ -94,6 +94,31 @@ body {
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
 <link rel="manifest" href="index.manifest.json">
 
+	<script>
+// Takes a new build as soon as the offline cache has it. Godot's service worker serves the cached build and
+// only moves to a new one once every copy of the page has closed, which a home-screen app on a phone rarely
+// does. A build already waiting is taken at once; one found during the first minute is taken when it is
+// ready; one found later waits for the next start, so a game is never reloaded in the middle of play.
+(function () {
+	if (!('serviceWorker' in navigator)) return;
+	var started = Date.now();
+	function take(worker) {
+		if (worker && navigator.serviceWorker.controller) worker.postMessage('update');
+	}
+	navigator.serviceWorker.getRegistration().then(function (reg) {
+		if (!reg) return;
+		if (reg.waiting) { take(reg.waiting); return; }
+		reg.addEventListener('updatefound', function () {
+			var worker = reg.installing;
+			if (!worker) return;
+			worker.addEventListener('statechange', function () {
+				if (worker.state === 'installed' && Date.now() - started < 60000) take(worker);
+			});
+		});
+		reg.update().catch(function () {});
+	}).catch(function () {});
+})();
+</script>
 	</head>
 	<body>
 		<canvas id="canvas">
@@ -112,7 +137,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":1288496,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":1294680,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
